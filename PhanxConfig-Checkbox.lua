@@ -4,7 +4,7 @@
 	Based on tekKonfig-Checkbox by Tekkub.
 ----------------------------------------------------------------------]]
 
-local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", 1)
+local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", 2)
 if not lib then return end
 
 local function OnEnter(self)
@@ -16,6 +16,10 @@ end
 
 local function OnLeave()
 	GameTooltip:Hide()
+end
+
+local function OnClick(self)
+	PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 end
 
 function lib.CreateCheckbox(parent, text, size)
@@ -33,8 +37,7 @@ function lib.CreateCheckbox(parent, text, size)
 
 	check:SetScript("OnEnter", OnEnter)
 	check:SetScript("OnLeave", OnLeave)
-
-	check:SetScript("OnClick", Checkbox_OnClick)
+	check:SetScript("OnClick", OnClick)
 
 	local label = check:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	label:SetPoint("LEFT", check, "RIGHT", 0, 1)
