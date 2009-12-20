@@ -4,13 +4,13 @@
 	Based on tekKonfig-Checkbox by Tekkub.
 ----------------------------------------------------------------------]]
 
-local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", 2)
+local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", 3)
 if not lib then return end
 
 local function OnEnter(self)
-	if self.hint then
+	if self.desc then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-		GameTooltip:SetText(self.hint, nil, nil, nil, nil, true)
+		GameTooltip:SetText(self.desc, nil, nil, nil, nil, true)
 	end
 end
 
@@ -19,7 +19,11 @@ local function OnLeave()
 end
 
 local function OnClick(self)
-	PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
+	local checked = self:GetChecked() == 1
+	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
+	if self.func then
+		self.func(self, checked)
+	end
 end
 
 function lib.CreateCheckbox(parent, text, size)
