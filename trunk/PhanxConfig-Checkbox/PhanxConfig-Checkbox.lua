@@ -21,8 +21,8 @@ end
 local function OnClick(self)
 	local checked = self:GetChecked() == 1
 	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-	if self.func then
-		self.func(self, checked)
+	if self.OnClick then
+		self.OnClick(self, checked)
 	end
 end
 
