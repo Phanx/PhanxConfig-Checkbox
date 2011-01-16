@@ -56,5 +56,10 @@ function lib.CreateCheckbox(parent, text, size)
 
 	check.label = label
 
+	local width = label:GetStringWidth()
+	if width > 100 then
+		check:SetHitRectInsets(0, -width, 0, 0)
+	end
+
 	return check
 end
