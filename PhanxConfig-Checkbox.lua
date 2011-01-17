@@ -38,8 +38,6 @@ function lib.CreateCheckbox(parent, text, size)
 	check:SetWidth(size or 26)
 	check:SetHeight(size or 26)
 
-	check:SetHitRectInsets(0, -100, 0, 0)
-
 	check:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
 	check:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
 	check:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
@@ -56,10 +54,8 @@ function lib.CreateCheckbox(parent, text, size)
 
 	check.label = label
 
-	local width = label:GetStringWidth()
-	if width > 100 then
-		check:SetHitRectInsets(0, -width, 0, 0)
-	end
+	local width = math.max( label:GetStringWidth(), 100 )
+	check:SetHitRectInsets(0, -width, 0, 0)
 
 	return check
 end
