@@ -33,7 +33,7 @@ local function OnClick(self)
 	end
 end
 
-function lib.CreateCheckbox(parent, text, size)
+function lib.CreateCheckbox(parent, text, desc, size)
 	local check = CreateFrame("CheckButton", nil, parent)
 	check:SetWidth(size or 26)
 	check:SetHeight(size or 26)
@@ -51,11 +51,12 @@ function lib.CreateCheckbox(parent, text, size)
 	local label = check:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	label:SetPoint("LEFT", check, "RIGHT", 0, 1)
 	label:SetText(text)
-
 	check.label = label
 
 	local width = math.max( label:GetStringWidth(), 100 )
 	check:SetHitRectInsets(0, -width, 0, 0)
+
+	check.desc = desc
 
 	return check
 end
