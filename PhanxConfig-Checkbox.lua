@@ -33,10 +33,14 @@ local function OnClick(self)
 	end
 end
 
-function lib.CreateCheckbox(parent, text, desc, size)
+function lib.CreateCheckbox(parent, text, desc)
+	assert( type(parent) == "table" and parent.GetFrameType, "PhanxConfig-Checkbox: Parent is not a valid frame!" )
+	if type(name) ~= "string" then name = nil end
+	if type(desc) ~= "string" then desc = nil end
+
 	local check = CreateFrame("CheckButton", nil, parent)
-	check:SetWidth(size or 26)
-	check:SetHeight(size or 26)
+	check:SetWidth(26)
+	check:SetHeight(26)
 
 	check:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
 	check:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
