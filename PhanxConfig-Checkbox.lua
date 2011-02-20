@@ -57,8 +57,7 @@ function lib.CreateCheckbox(parent, text, desc)
 	label:SetText(text)
 	check.label = label
 
-	local width = math.max( label:GetStringWidth(), 100 )
-	check:SetHitRectInsets(0, -width, 0, 0)
+	check:SetHitRectInsets(0, -1 * math.min( 186, math.max( label:GetStringWidth(), 100 ) ), 0, 0)
 
 	check.desc = desc
 
