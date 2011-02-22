@@ -33,6 +33,20 @@ local function OnClick(self)
 	end
 end
 
+local function OnDisable(self)
+	if self.disabled then return end
+	local r, g, b = self.label:GetTextColor()
+	self.label:SetTextColor(r/2, g/2, b/2)
+	self.disabled = true
+end
+
+local function OnEnable(self)
+	if not self.disabled then return end
+	local r, g, b = self.label:GetTextColor()
+	self.label:SetTextColor(r*2, g*2, b*2)
+	self.disabled = nil
+end
+
 function lib.CreateCheckbox(parent, text, desc)
 	assert( type(parent) == "table" and parent.CreateFontString, "PhanxConfig-Checkbox: Parent is not a valid frame!" )
 	if type(name) ~= "string" then name = nil end
@@ -47,6 +61,9 @@ function lib.CreateCheckbox(parent, text, desc)
 	check:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
 	check:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
 	check:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+
+	check:SetScript("OnDisable", OnDisable)
+	check:SetScript("OnEnable", OnEnable)
 
 	check:SetScript("OnEnter", OnEnter)
 	check:SetScript("OnLeave", OnLeave)
