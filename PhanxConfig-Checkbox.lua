@@ -9,7 +9,7 @@
 	its internals may change at any time without notice.
 ----------------------------------------------------------------------]]
 
-local MINOR_VERSION = tonumber(("$Revision$"):match("%d+"))
+local MINOR_VERSION = tonumber(strmatch("$Revision$", "%d+"))
 
 local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", MINOR_VERSION)
 if not lib then return end
@@ -20,10 +20,9 @@ function OnClick(self)
 	local checked = self:GetChecked() == 1
 	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 	OnLeave(self)
-	if self.OnValueChanged then
-		self:OnValueChanged(checked)
-	elseif self.OnClick then -- deprecated
-		self.OnClick(self, checked)
+	local handler = self.OnValueChanged or self.OnClick -- OnClick is deprecated
+	if handler then
+		handler(self, checked)
 	end
 end
 
@@ -76,7 +75,7 @@ function lib.CreateCheckbox(parent, text, desc)
 	label:SetText(text)
 	check.label = label
 
-	check:SetHitRectInsets(0, -1 * math.min(186, math.max(label:GetStringWidth(), 100)), 0, 0)
+	check:SetHitRectInsets(0, -1 * min(186, max(label:GetStringWidth(), 100)), 0, 0)
 
 	check.desc = desc
 
