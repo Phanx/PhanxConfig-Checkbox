@@ -14,45 +14,49 @@ local MINOR_VERSION = tonumber(strmatch("$Revision$", "%d+"))
 local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", MINOR_VERSION)
 if not lib then return end
 
-local OnClick, OnDisable, OnEnable, OnEnter, OnLeave, GetValue
+local prototype = {}
 
-function OnClick(self)
+function prototype:OnClick()
 	local checked = self:GetChecked() == 1
 	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-	OnLeave(self)
+	self:OnLeave()
 	local handler = self.OnValueChanged or self.OnClick -- OnClick is deprecated
 	if handler then
 		handler(self, checked)
 	end
 end
 
-function OnDisable(self)
+function prototype:OnDisable()
 	if self.disabled then return end
 	local r, g, b = self.label:GetTextColor()
 	self.label:SetTextColor(r / 2, g / 2, b / 2)
 	self.disabled = true
 end
 
-function OnEnable(self)
+function prototype:OnEnable()
 	if not self.disabled then return end
 	local r, g, b = self.label:GetTextColor()
 	self.label:SetTextColor(r * 2, g * 2, b * 2)
 	self.disabled = nil
 end
 
-function OnEnter(self)
+function prototype:OnEnter()
 	if self.desc then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetText(self.desc, nil, nil, nil, nil, true)
 	end
 end
 
-function OnLeave()
+function prototype:OnLeave()
 	GameTooltip:Hide()
 end
 
-function GetValue(self)
+function prototype:GetValue()
 	return self:GetChecked() == 1
+end
+
+function prototype:SetValue(value, auto)
+	self:SetChecked(value)
 end
 
 function lib.CreateCheckbox(parent, text, desc)
@@ -79,14 +83,15 @@ function lib.CreateCheckbox(parent, text, desc)
 
 	check.desc = desc
 
-	check.GetValue = GetValue
-	check.SetValue = check.SetChecked
+	for name, func in pairs(prototype) do
+		check[name] = func
+	end
 
-	check:SetScript("OnClick",   OnClick)
-	check:SetScript("OnDisable", OnDisable)
-	check:SetScript("OnEnable",  OnEnable)
-	check:SetScript("OnEnter",   OnEnter)
-	check:SetScript("OnLeave",   OnLeave)
+	check:SetScript("OnClick",   check.OnClick)
+	check:SetScript("OnDisable", check.OnDisable)
+	check:SetScript("OnEnable",  check.OnEnable)
+	check:SetScript("OnEnter",   check.OnEnter)
+	check:SetScript("OnLeave",   check.OnLeave)
 
 	return check
 end
