@@ -14,48 +14,50 @@ local MINOR_VERSION = tonumber(strmatch("$Revision$", "%d+"))
 local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", MINOR_VERSION)
 if not lib then return end
 
-local prototype = {}
+local scripts = {}
 
-function prototype:OnClick()
+function scripts:OnClick()
 	local checked = self:GetChecked() == 1
 	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-	self:OnLeave()
-	local handler = self.OnValueChanged or self.OnClick -- OnClick is deprecated
+	self:GetScript("OnLeave")(self)
+	local handler = self.ApplyValue or self.OnValueChanged or self.OnClick -- OnClick is deprecated
 	if handler then
 		handler(self, checked)
 	end
 end
 
-function prototype:OnDisable()
+function scripts:OnDisable()
 	if self.disabled then return end
 	local r, g, b = self.label:GetTextColor()
 	self.label:SetTextColor(r / 2, g / 2, b / 2)
 	self.disabled = true
 end
 
-function prototype:OnEnable()
+function scripts:OnEnable()
 	if not self.disabled then return end
 	local r, g, b = self.label:GetTextColor()
 	self.label:SetTextColor(r * 2, g * 2, b * 2)
 	self.disabled = nil
 end
 
-function prototype:OnEnter()
+function scripts:OnEnter()
 	if self.desc then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetText(self.desc, nil, nil, nil, nil, true)
 	end
 end
 
-function prototype:OnLeave()
+function scripts:OnLeave()
 	GameTooltip:Hide()
 end
 
-function prototype:GetValue()
+local methods = {}
+
+function methods:GetValue()
 	return self:GetChecked() == 1
 end
 
-function prototype:SetValue(value, auto)
+function methods:SetValue(value, auto)
 	self:SetChecked(value)
 end
 
@@ -83,15 +85,12 @@ function lib.CreateCheckbox(parent, text, desc)
 
 	check.desc = desc
 
-	for name, func in pairs(prototype) do
+	for name, func in pairs(methods) do
 		check[name] = func
 	end
-
-	check:SetScript("OnClick",   check.OnClick)
-	check:SetScript("OnDisable", check.OnDisable)
-	check:SetScript("OnEnable",  check.OnEnable)
-	check:SetScript("OnEnter",   check.OnEnter)
-	check:SetScript("OnLeave",   check.OnLeave)
+	for name, func in pairs(scripts) do
+		check:SetScript(name, func)
+	end
 
 	return check
 end
