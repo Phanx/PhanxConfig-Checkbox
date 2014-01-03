@@ -61,7 +61,7 @@ function methods:SetValue(value, auto)
 	self:SetChecked(value)
 end
 
-function lib.CreateCheckbox(parent, text, desc)
+function lib:New(parent, text, desc)
 	assert(type(parent) == "table" and type(rawget(parent, 0) == "userdata"), "PhanxConfig-Checkbox: parent must be a frame")
 	if type(name) ~= "string" then name = nil end
 	if type(desc) ~= "string" then desc = nil end
@@ -94,3 +94,5 @@ function lib.CreateCheckbox(parent, text, desc)
 
 	return check
 end
+
+function lib.CreateCheckbox(...) return lib:New(...) end
