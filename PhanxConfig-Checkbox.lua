@@ -61,15 +61,18 @@ function methods:SetValue(value, auto)
 	self:SetChecked(value)
 end
 
-function methods:GetTooltipText()
-	return self.tooltipText
+function methods:GetLabel()
+	return self.labelText:GetText()
 end
-function methods:SetTooltipText(text)
-	self.tooltipText = text
+function methods:SetLabel(text)
+	self.labelText:SetText(text)
 end
 
-function methods:SetFunction(func)
-	self.func = func
+function methods:GetTooltip()
+	return self.tooltipText
+end
+function methods:SetTooltip(text)
+	self.tooltipText = text
 end
 
 ------------------------------------------------------------------------
@@ -91,7 +94,7 @@ function lib:New(parent, text, tooltipText)
 	local label = check:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	label:SetPoint("LEFT", check, "RIGHT", 2, 1)
 	label:SetText(text)
-	check.label = label
+	check.labelText = label
 
 	check:SetMotionScriptsWhileDisabled(true)
 	for name, func in pairs(scripts) do
