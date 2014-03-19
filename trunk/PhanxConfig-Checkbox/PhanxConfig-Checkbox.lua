@@ -22,9 +22,8 @@ function scripts:OnClick()
 	local checked = self:GetChecked() == 1
 	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 	self:GetScript("OnLeave")(self)
-	local handler = self.func or self.ApplyValue or self.OnValueChanged or self.OnClick -- OnClick is deprecated
-	if handler then
-		handler(self, checked)
+	if self.Callback then
+		self:Callback(checked)
 	end
 end
 
