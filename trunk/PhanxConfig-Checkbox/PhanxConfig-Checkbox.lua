@@ -30,7 +30,10 @@ end
 function scripts:OnEnter()
 	if self.tooltipText then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-		GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, true)
+		GameTooltip:AddLine(self.labelText:GetText(), nil, nil, nil, true)
+		GameTooltip:AddLine(self.tooltipText, 1, 1, 1, true)
+		GameTooltip:SetMinimumWidth(GameTooltipTextLeft1:GetStringWidth() + 21)
+		GameTooltip:Show()
 	end
 end
 function scripts:OnLeave()
