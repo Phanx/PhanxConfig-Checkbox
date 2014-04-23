@@ -42,14 +42,14 @@ end
 
 function scripts:OnEnable()
 	if not self.disabled then return end
-	local r, g, b = self.label:GetTextColor()
-	self.label:SetTextColor(r * 2, g * 2, b * 2)
+	local r, g, b = self.labelText:GetTextColor()
+	self.labelText:SetTextColor(r * 2, g * 2, b * 2)
 	self.disabled = nil
 end
 function scripts:OnDisable()
 	if self.disabled then return end
-	local r, g, b = self.label:GetTextColor()
-	self.label:SetTextColor(r / 2, g / 2, b / 2)
+	local r, g, b = self.labelText:GetTextColor()
+	self.labelText:SetTextColor(r / 2, g / 2, b / 2)
 	self.disabled = true
 end
 
