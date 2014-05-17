@@ -30,9 +30,7 @@ end
 function scripts:OnEnter()
 	if self.tooltipText then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-		GameTooltip:AddLine(self.labelText:GetText(), nil, nil, nil, true)
 		GameTooltip:AddLine(self.tooltipText, 1, 1, 1, true)
-		GameTooltip:SetMinimumWidth(GameTooltipTextLeft1:GetStringWidth() + 21)
 		GameTooltip:Show()
 	end
 end
@@ -102,6 +100,7 @@ function lib:New(parent, text, tooltipText)
 	check:SetMotionScriptsWhileDisabled(true)
 	for name, func in pairs(scripts) do
 		check:SetScript(name, func)
+		check[name] = func
 	end
 	for name, func in pairs(methods) do
 		check[name] = func
