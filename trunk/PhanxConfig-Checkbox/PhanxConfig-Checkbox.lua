@@ -18,7 +18,7 @@ if not lib then return end
 local scripts = {}
 
 function scripts:OnClick()
-	local checked = self:GetChecked() == 1
+	local checked = not not self:GetChecked() -- WOD: won't need typecasting
 	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 	self:GetScript("OnLeave")(self)
 	if self.Callback then
