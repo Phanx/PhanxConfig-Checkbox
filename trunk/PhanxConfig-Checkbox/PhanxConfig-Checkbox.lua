@@ -54,9 +54,9 @@ end
 local methods = {}
 
 function methods:GetValue()
-	return self:GetChecked() == 1
+	return not not self:GetChecked() -- WOD: won't need typecasting
 end
-function methods:SetValue(value, auto)
+function methods:SetValue(value)
 	self:SetChecked(value)
 end
 
@@ -95,7 +95,10 @@ function lib:New(parent, text, tooltipText)
 	label:SetText(text)
 	check.labelText = label
 
+	check.tooltipText = tooltipText
+	check:SetHitRectInsets(0, -1 * min(186, max(label:GetStringWidth(), 100)), 0, 0)
 	check:SetMotionScriptsWhileDisabled(true)
+
 	for name, func in pairs(scripts) do
 		check:SetScript(name, func)
 		check[name] = func
@@ -103,9 +106,6 @@ function lib:New(parent, text, tooltipText)
 	for name, func in pairs(methods) do
 		check[name] = func
 	end
-
-	check.tooltipText = tooltipText
-	check:SetHitRectInsets(0, -1 * min(186, max(label:GetStringWidth(), 100)), 0, 0)
 
 	return check
 end
