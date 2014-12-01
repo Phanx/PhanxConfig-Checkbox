@@ -39,7 +39,7 @@
 	OTHER DEALINGS IN THE SOFTWARE.
 ----------------------------------------------------------------------]]
 
-local MINOR_VERSION = 176
+local MINOR_VERSION = 20141201
 
 local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", MINOR_VERSION)
 if not lib then return end
@@ -53,7 +53,7 @@ function scripts:OnClick()
 	PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 	self:GetScript("OnLeave")(self)
 
-	local callback = self.Callback or self.OnValueChanged
+	local callback = self.OnValueChanged
 	if callback then
 		callback(self, checked)
 	end
