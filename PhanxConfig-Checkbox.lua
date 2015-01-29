@@ -52,7 +52,13 @@ function lib:New(parent, text, tooltipText)
 	check.labelText:SetText(text)
 	check:SetHitRectInsets(0, -1 * max(100, check.labelText:GetStringWidth() + 4), 0, 0)
 	check.tooltipText = tooltipText
-
+--[[
+	check.bg = check:CreateTexture(nil, "BACKGROUND")
+	check.bg:SetPoint("TOPLEFT")
+	check.bg:SetPoint("BOTTOMLEFT")
+	check.bg:SetPoint("RIGHT", max(100, check.labelText:GetStringWidth() + 4), 0)
+	check.bg:SetTexture(0, 0.5, 0, 0.5)
+]]
 	return check
 end
 
