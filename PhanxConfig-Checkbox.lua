@@ -27,7 +27,7 @@ end
 
 function scripts:OnClick(button)
 	local checked = self:GetChecked()
-	PlaySound(checked and 798 or 799)
+	PlaySound(checked and SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
 	local callback = self.OnValueChanged or self.OnClick or self.Callback or self.callback
 	if callback then
 		return callback(self, checked)
