@@ -10,7 +10,7 @@
 	credits line -- any modified versions must be renamed to avoid conflicts.
 ----------------------------------------------------------------------]]
 
-local MINOR_VERSION = 20150112
+local MINOR_VERSION = 20170904
 
 local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", MINOR_VERSION)
 if not lib then return end
